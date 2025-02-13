@@ -27,7 +27,7 @@ jobs:
           conda build .
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: conda-package
           path: $HOME/miniconda/conda-bld/osx-64/*.tar.bz2
