@@ -26,8 +26,17 @@ jobs:
           conda install conda-build -y
           conda build .
 
+      - name: Capture built package path
+        id: get_path
+        run: |
+          # This command prints the output path for the built package.
+          PACKAGE_PATH=$(conda build . --output)
+          echo "PACKAGE_PATH=${PACKAGE_PATH}" >> $GITHUB_ENV
+          echo "package_path=${PACKAGE_PATH}" >> $GITHUB_OUTPUT
+          echo "Built package path: ${PACKAGE_PATH}"
+
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: conda-package
-          path: $HOME/miniconda/conda-bld/osx-64/*.tar.bz2
+          path: ${{ env.PACKAGE_PATH }}
