@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 name: Build Anaconda Package on macOS
 
 on:
   push:
     branches:
       - main
-  pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -26,3 +25,9 @@ jobs:
           source $HOME/miniconda/etc/profile.d/conda.sh
           conda install conda-build -y
           conda build .
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: conda-package
+          path: $HOME/miniconda/conda-bld/osx-64/*.tar.bz2
