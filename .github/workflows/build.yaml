@@ -29,7 +29,8 @@ jobs:
       - name: Capture built package path
         id: get_path
         run: |
-          # This command prints the output path for the built package.
+          # Source conda so that 'conda' is in PATH for this step too
+          source $HOME/miniconda/etc/profile.d/conda.sh
           PACKAGE_PATH=$(conda build . --output)
           echo "PACKAGE_PATH=${PACKAGE_PATH}" >> $GITHUB_ENV
           echo "package_path=${PACKAGE_PATH}" >> $GITHUB_OUTPUT
