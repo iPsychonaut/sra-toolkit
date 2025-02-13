@@ -1,0 +1,28 @@
+# -*- coding: utf-8 -*-
+name: Build Anaconda Package on macOS
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Miniconda
+        run: |
+          curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+          bash Miniconda3-latest-MacOSX-x86_64.sh -b -p $HOME/miniconda
+          source $HOME/miniconda/etc/profile.d/conda.sh
+          conda update -n base -c defaults conda -y
+
+      - name: Build Anaconda Package
+        run: |
+          source $HOME/miniconda/etc/profile.d/conda.sh
+          conda install conda-build -y
+          conda build .
